@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery Detail — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { margin: 0; }
+    [data-reveal] { opacity: 0; transform: translateY(22px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    [data-reveal].visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body class="detail-page-body">
+
+  <!-- ============================================================
+       BACK BAR
+  ============================================================ -->
+  <header class="detail-back-bar">
+    <a href="index.html#gallery" class="detail-back-btn" aria-label="Back to gallery">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to Gallery
+    </a>
+    <a href="index.html" class="detail-bar-logo">
+      <span class="logo-bracket">{</span>LUNA<span class="logo-bracket">}</span>
+    </a>
+  </header>
+
+  <!-- ============================================================
+       MAIN CONTENT — populated by JS
+  ============================================================ -->
+  <main id="detailMain"></main>
+
+  <!-- ============================================================
+       SCRIPT
+  ============================================================ -->
+  <script src="script.js"></script>
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const id     = params.get('id');
+      const main   = document.getElementById('detailMain');
+
+      const GALLERY_ITEMS = window.PORTFOLIO_DATA ? window.PORTFOLIO_DATA.GALLERY_ITEMS : [];
+      const item = GALLERY_ITEMS.find(g => g.id === id);
+
+      if (!item) {
+        main.innerHTML = `
+          <div class="detail-not-found">
+            <h2>Design not found</h2>
+            <p>This gallery item doesn't exist or may have moved.</p>
+            <a href="index.html#gallery" class="btn btn-primary" style="margin-top:1rem;">Back to Gallery</a>
+          </div>`;
+        return;
+      }
+
+      document.title = `${item.title} — Portfolio`;
+
+      // Related designs: same category, excluding current
+      const related = GALLERY_ITEMS
+        .filter(g => g.id !== item.id && g.category === item.category)
+        .slice(0, 4);
+
+      // If not enough in same category, pad with others
+      if (related.length < 3) {
+        const others = GALLERY_ITEMS.filter(g => g.id !== item.id && g.category !== item.category);
+        while (related.length < 3 && others.length) {
+          related.push(others.shift());
+        }
+      }
+
+      // Build thumbnail strip HTML
+      const images = item.images && item.images.length ? item.images : (item.image ? [item.image] : []);
+      const thumbsHtml = images.map((src, i) => `
+        <div class="gal-thumb${i === 0 ? ' active' : ''}" data-index="${i}" data-src="${src}" role="button" tabindex="0" aria-label="View image ${i + 1}">
+          <img src="${src}" alt="Thumbnail ${i + 1}" loading="lazy" />
+        </div>
+      `).join('');
+
+      // Master image
+      const masterSrc = images[0] || '';
+      const masterHtml = masterSrc
+        ? `<img id="galMasterImg" class="gal-master-img" src="${masterSrc}" alt="${item.title}" loading="eager" />`
+        : `<div class="gal-master-placeholder" style="background:${item.color}"><span>${item.icon}</span></div>`;
+
+      // Details list
+      const detailsHtml = (item.details && item.details.length)
+        ? `<h3 class="gal-details-title">What Was Delivered</h3>
+           <ul class="gal-details-list">
+             ${item.details.map(d => `<li>${d}</li>`).join('')}
+           </ul>`
+        : '';
+
+      // Related designs row
+      const relatedHtml = related.map(r => `
+        <a href="gallery-detail.html?id=${r.id}" class="gal-related-card">
+          ${r.image
+            ? `<img class="gal-related-img" src="${r.image}" alt="${r.title}" loading="lazy" />`
+            : `<div class="gal-related-placeholder" style="background:${r.color}">${r.icon}</div>`
+          }
+          <div class="gal-related-info">
+            <p class="gal-related-cat">${r.category}</p>
+            <p class="gal-related-name">${r.title}</p>
+          </div>
+        </a>
+      `).join('');
+
+      main.innerHTML = `
+        <!-- HERO HEADER -->
+        <section class="gal-hero" data-reveal>
+          <p class="gal-eyebrow">Graphic Design — ${item.category}</p>
+          <h1 class="gal-hero-title">${item.title}</h1>
+          <div class="gal-hero-meta-row">
+            <span class="gal-category-badge">${item.category}</span>
+            <span class="gal-hero-year">${item.year}</span>
+          </div>
+        </section>
+
+        <!-- MASTER IMAGE VIEWPORT -->
+        <div class="gal-master-wrap" data-reveal>
+          ${masterHtml}
+        </div>
+
+        <!-- THUMBNAIL STRIP -->
+        ${images.length > 1 ? `
+        <div class="gal-thumb-strip-wrap" data-reveal>
+          <div class="gal-thumb-strip" id="galThumbStrip" role="list">
+            ${thumbsHtml}
+          </div>
+        </div>` : ''}
+
+        <!-- DETAIL LAYOUT -->
+        <div class="gal-detail-layout">
+
+          <!-- LEFT: Description + deliverables -->
+          <div data-reveal>
+            <p class="gal-description">${item.description}</p>
+            ${detailsHtml}
+          </div>
+
+          <!-- RIGHT: Metadata card -->
+          <aside data-reveal>
+            <div class="gal-meta-card">
+              <div class="gal-meta-header">Project Details</div>
+              <div class="gal-meta-row">
+                <span class="gal-meta-label">Client</span>
+                <span class="gal-meta-value">${item.client || 'Personal Project'}</span>
+              </div>
+              <div class="gal-meta-row">
+                <span class="gal-meta-label">Tools Used</span>
+                <span class="gal-meta-value">${item.tools || '—'}</span>
+              </div>
+              <div class="gal-meta-row">
+                <span class="gal-meta-label">Year</span>
+                <span class="gal-meta-value">${item.year || '—'}</span>
+              </div>
+              <div class="gal-meta-row">
+                <span class="gal-meta-label">Format</span>
+                <span class="gal-meta-value">${item.format || '—'}</span>
+              </div>
+              <div class="gal-meta-row">
+                <span class="gal-meta-label">Assets</span>
+                <span class="gal-meta-value">${images.length} image${images.length !== 1 ? 's' : ''}</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <!-- RELATED DESIGNS -->
+        ${related.length > 0 ? `
+        <section class="gal-related-section" data-reveal>
+          <h2 class="gal-related-title">Related <span>Designs</span></h2>
+          <div class="gal-related-grid">
+            ${relatedHtml}
+          </div>
+        </section>` : ''}
+      `;
+
+      // ── THUMBNAIL INTERACTION ──────────────────────────────────
+      const masterImg = document.getElementById('galMasterImg');
+      const strip     = document.getElementById('galThumbStrip');
+
+      if (strip && masterImg) {
+        strip.querySelectorAll('.gal-thumb').forEach(thumb => {
+          const activate = () => {
+            // Swap master image
+            masterImg.src = thumb.dataset.src;
+            masterImg.alt = item.title + ' — image ' + (parseInt(thumb.dataset.index) + 1);
+
+            // Update active thumb
+            strip.querySelectorAll('.gal-thumb').forEach(t => t.classList.remove('active'));
+            thumb.classList.add('active');
+
+            // Scroll thumb into view within strip
+            thumb.scrollIntoView({ behavior: 'smooth', inline: 'nearest', block: 'nearest' });
+          };
+
+          thumb.addEventListener('click', activate);
+          thumb.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
+          });
+        });
+      }
+
+      // ── KEYBOARD ARROW NAVIGATION on master image ─────────────
+      if (masterImg && images.length > 1) {
+        let currentIndex = 0;
+        document.addEventListener('keydown', e => {
+          if (e.key === 'ArrowRight') {
+            currentIndex = (currentIndex + 1) % images.length;
+          } else if (e.key === 'ArrowLeft') {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+          } else return;
+
+          masterImg.src = images[currentIndex];
+          if (strip) {
+            strip.querySelectorAll('.gal-thumb').forEach((t, i) => {
+              t.classList.toggle('active', i === currentIndex);
+            });
+          }
+        });
+      }
+
+      // ── SCROLL REVEAL ─────────────────────────────────────────
+      requestAnimationFrame(() => {
+        const observer = new IntersectionObserver(
+          entries => entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+              setTimeout(() => entry.target.classList.add('visible'), i * 80);
+              observer.unobserve(entry.target);
+            }
+          }),
+          { threshold: 0.08 }
+        );
+        document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
+      });
+
+    })();
+  </script>
+</body>
+</html>

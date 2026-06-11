@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio — Frontend Developer & Graphic Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       SCROLL PROGRESS INDICATOR
+  ============================================================ -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- ============================================================
+       NAVIGATION BAR
+  ============================================================ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a class="nav-logo" href="#hero">
+        <span class="logo-bracket">{</span>LUNA<span class="logo-bracket">}</span>
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#hero" class="nav-link active">Home</a></li>
+        <li><a href="#gallery" class="nav-link">Gallery</a></li>
+      </ul>
+
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div class="mobile-drawer" id="mobileDrawer">
+      <ul class="mobile-links">
+        <li><a href="#hero" class="mobile-link">Home</a></li>
+        <li><a href="#gallery" class="mobile-link">Gallery</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       HERO SECTION
+  ============================================================ -->
+  <section class="hero" id="hero">
+    <!-- Background video -->
+    <video class="hero-video" autoplay muted loop playsinline>
+      <source src="assets/mixkit-animation-of-purple-background-and-white-triangles-99548-full-hd.mp4" type="video/mp4" />
+    </video>
+    <div class="hero-overlay"></div>
+
+    <!-- Animated grid lines -->
+    <div class="hero-grid"></div>
+
+    <div class="hero-content">
+      <p class="hero-eyebrow" data-reveal>Available for Freelance &amp; Full-Time</p>
+      <h1 class="hero-headline" data-reveal>
+        I Build Interfaces<br/>
+        <span class="headline-accent">People Remember.</span>
+      </h1>
+      <p class="hero-sub" data-reveal>
+        Frontend Web Developer <span class="divider-dot">◆</span> Graphic Designer<br/>
+        Crafting high-performance UIs and visual systems that convert.
+      </p>
+      <div class="hero-cta-row" data-reveal>
+        <a href="#gallery" class="btn btn-primary magnetic">
+          <span>View My Work</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/wajeeha-mehmood/" target="_blank" class="btn btn-ghost magnetic">Let's Talk</a>
+      </div>
+
+      <!-- Floating stats -->
+      <div class="hero-stats" data-reveal>
+        <div class="stat"><span class="stat-num">3+</span><span class="stat-label">Internships</span></div>
+        <div class="stat-sep"></div>
+        <div class="stat"><span class="stat-num">10+</span><span class="stat-label">Projects</span></div>
+        <div class="stat-sep"></div>
+        <div class="stat"><span class="stat-num">2</span><span class="stat-label">Disciplines</span></div>
+      </div>
+    </div>
+
+    <div class="hero-scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       EXPERIENCE / INTERNSHIPS SECTION
+  ============================================================ -->
+  <section class="section experience-section" id="experience">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Where I've Grown</p>
+        <h2 class="section-title">Internships & <span class="text-accent">Experience</span></h2>
+      </div>
+
+      <!-- Tab controls -->
+      <div class="exp-tabs" id="expTabs" role="tablist"></div>
+
+      <!-- Tab panels -->
+      <div class="exp-panels" id="expPanels"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       WEB PROJECTS SECTION
+  ============================================================ -->
+  <section class="section projects-section" id="projects">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">What I've Built</p>
+        <h2 class="section-title">Web Development <span class="text-accent">Projects</span></h2>
+      </div>
+
+      <!-- Main project cards -->
+      <div class="projects-grid" id="projectsGrid"></div>
+
+      <!-- Mini projects sub-section -->
+      <div class="mini-projects-header">
+        <h3 class="mini-title">Mini <span class="text-accent">Projects</span></h3>
+        <p class="mini-sub">Lightweight utility apps &amp; experiments</p>
+      </div>
+      <div class="mini-projects-grid" id="miniProjectsGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       GRAPHIC DESIGN GALLERY SECTION
+  ============================================================ -->
+  <section class="section gallery-section" id="gallery">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Visual Work</p>
+        <h2 class="section-title">Graphic Design <span class="text-accent">Gallery</span></h2>
+      </div>
+
+      <!-- Filter controls -->
+      <div class="gallery-filters" id="galleryFilters" role="group" aria-label="Filter gallery"></div>
+
+      <!-- Masonry grid -->
+      <div class="gallery-masonry" id="galleryMasonry"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CERTIFICATIONS & COURSES SECTION
+  ============================================================ -->
+  <section class="section certs-section" id="certifications">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Always Learning</p>
+        <h2 class="section-title">Courses & <span class="text-accent">Certifications</span></h2>
+      </div>
+      <div class="certs-grid" id="certsGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTACT SECTION
+  ============================================================ -->
+  <section class="section contact-section" id="contact">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Open to Opportunities</p>
+        <h2 class="section-title">Let's <span class="text-accent">Connect</span></h2>
+      </div>
+
+      <div class="contact-layout">
+        <!-- Info column -->
+        <div class="contact-info">
+          <p class="contact-blurb">
+            Whether you have a project in mind, a role to fill, or just want to say hello —
+            I'm always reachable. Drop me a message and I'll get back within 24 hours.
+          </p>
+          <div class="contact-socials">
+            <a href="https://github.com/" target="_blank" rel="noopener" class="social-chip" aria-label="GitHub">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.167 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.607.069-.607 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+              GitHub
+            </a>
+            <a href="https://linkedin.com/" target="_blank" rel="noopener" class="social-chip" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              LinkedIn
+            </a>
+            <a href="https://behance.net/" target="_blank" rel="noopener" class="social-chip" aria-label="Behance">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.938 4.503c.702 0 1.34.06 1.92.188.577.13 1.07.33 1.485.61.41.28.733.65.96 1.12.225.47.34 1.05.34 1.73 0 .74-.17 1.36-.507 1.86-.338.5-.837.9-1.502 1.22.906.26 1.576.72 2.022 1.37.448.66.665 1.45.665 2.36 0 .75-.13 1.39-.41 1.93-.28.55-.67 1-1.16 1.35-.49.35-1.05.61-1.69.78-.63.17-1.29.25-1.98.25H0V4.51h6.938v-.007zM16.94 16.665c.44.428 1.073.643 1.894.643.59 0 1.1-.148 1.53-.447.424-.29.68-.61.78-.94h2.588c-.403 1.28-1.048 2.2-1.9 2.75-.85.56-1.884.83-3.08.83-.837 0-1.584-.13-2.272-.4-.673-.27-1.24-.65-1.72-1.14-.464-.49-.823-1.08-1.077-1.77-.253-.69-.373-1.45-.373-2.27 0-.803.135-1.54.403-2.23.27-.7.644-1.28 1.12-1.79.495-.51 1.063-.895 1.736-1.19.668-.29 1.39-.43 2.17-.43.883 0 1.654.17 2.324.52.67.34 1.22.82 1.66 1.4.44.586.75 1.26.939 2.02.19.75.25 1.54.21 2.38h-7.69c0 .84.218 1.5.663 1.93l.002.003zM3.545 9.86h2.76c.627 0 1.145-.15 1.55-.45.406-.3.61-.77.61-1.42 0-.71-.207-1.19-.61-1.47-.405-.28-.93-.42-1.57-.42H3.545v3.76zm10.968.37c-.35.33-.57.81-.67 1.44h4.77c-.06-.64-.29-1.12-.67-1.44-.39-.33-.86-.49-1.42-.49-.6 0-1.06.16-1.41.49h.4zM3.545 14.93h3.21c.7 0 1.27-.17 1.71-.5.44-.34.66-.87.66-1.59 0-.64-.22-1.14-.67-1.48-.44-.34-1.02-.51-1.73-.51H3.545v4.08z"/></svg>
+              Behance
+            </a>
+          </div>
+        </div>
+
+        <!-- Contact form -->
+        <form class="contact-form" id="contactForm" novalidate>
+          <div class="form-group">
+            <input type="text" id="nameInput" class="form-input" placeholder=" " required />
+            <label for="nameInput" class="form-label">Your Name</label>
+            <span class="form-line"></span>
+          </div>
+          <div class="form-group">
+            <input type="email" id="emailInput" class="form-input" placeholder=" " required />
+            <label for="emailInput" class="form-label">Email Address</label>
+            <span class="form-line"></span>
+          </div>
+          <div class="form-group">
+            <input type="text" id="subjectInput" class="form-input" placeholder=" " />
+            <label for="subjectInput" class="form-label">Subject</label>
+            <span class="form-line"></span>
+          </div>
+          <div class="form-group">
+            <textarea id="msgInput" class="form-input form-textarea" placeholder=" " rows="5" required></textarea>
+            <label for="msgInput" class="form-label">Your Message</label>
+            <span class="form-line"></span>
+          </div>
+          <button type="submit" class="btn btn-primary submit-btn magnetic">
+            <span id="submitLabel">Send Message</span>
+            <svg id="sendIcon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14 2L2 8l4 2 2 4 6-12z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </button>
+          <p class="form-success" id="formSuccess">Message sent! I'll reply within 24 hours.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="footer-logo"><span class="logo-bracket">{</span>YN<span class="logo-bracket">}</span></p>
+      <p class="footer-copy">Designed &amp; built with obsession. &copy; <span id="footerYear"></span></p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
